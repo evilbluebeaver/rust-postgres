@@ -45,6 +45,14 @@ pub async fn simple_query(client: &InnerClient, query: &str) -> Result<SimpleQue
     })
 }
 
+pub fn simple_query_send(client: &InnerClient, query: &str) -> Result<(), Error> {
+    debug!("executing simple query send: {}", query);
+
+    let buf = encode(client, query)?;
+    let _ = client.send(RequestMessages::Single(FrontendMessage::Raw(buf)))?;
+    Ok(())
+}
+
 pub async fn batch_execute(client: &InnerClient, query: &str) -> Result<(), Error> {
     debug!("executing statement batch: {}", query);
 

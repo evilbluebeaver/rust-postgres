@@ -455,6 +455,11 @@ impl Client {
         simple_query::simple_query(self.inner(), query).await
     }
 
+    /// Used as a workaround for diesel-async transaction issue fix.
+    pub fn simple_query_send(&self, query: &str) -> Result<(), Error> {
+        simple_query::simple_query_send(self.inner(), query)
+    }
+
     /// Executes a sequence of SQL statements using the simple query protocol.
     ///
     /// Statements should be separated by semicolons. If an error occurs, execution of the sequence will stop at that
